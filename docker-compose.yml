@@ -1,0 +1,74 @@
+version: "2"
+services:
+
+  tomcat_datavolume:
+    container_name: tomcat_datavolume
+    image: tomcatdata
+    build:
+      context: .
+      dockerfile: tomcat_war_deploy.Dockerfile
+
+  tomcat:
+    container_name: tomcat
+    image: tomcat
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "udp://127.0.0.1:514"
+        tag: "tomcat_log"
+    build:
+      context: .
+      dockerfile: tomcat.Dockerfile
+    volumes_from:
+    - tomcat_datavolume
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 40000
+    restart: always
+    networks:
+      custom:
+        ipv4_address: 172.33.0.3
+
+  nginx_datavolume:
+    container_name: nginx_datavolume
+    image: nginxdata
+    build:
+      context: .
+      dockerfile: vhost.Dockerfile
+
+  nginx:
+    container_name: nginx
+    image: nginx
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "udp://127.0.0.1:514"
+        tag: "nginx_log"
+    build:
+      context: .
+      dockerfile: nginx.Dockerfile
+    ports: 
+      - 80:80
+    links:
+      - tomcat:tomcat
+    volumes_from:
+    - nginx_datavolume
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 40000
+    restart: always
+    networks:
+      custom:
+        ipv4_address: 172.33.0.2
+
+networks:
+  custom:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.33.0.0/16

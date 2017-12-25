@@ -1,0 +1,18 @@
+- hosts: localhost
+  vars:
+    key: "{{step}}"
+    contents: "{{ lookup('lookup', 'docker-compose.yml') }}"
+
+  tasks:
+  - debug:
+      msg: "{{contents.split(' ,')}}"
+    when: key == 'up'
+
+  - name: Docker-compose up
+    shell: docker-compose {{key}} -d
+    when: key == 'up'
+
+  - name: Docker-compose down
+    shell: docker-compose {{key}}
+    when: key == 'down'
+
