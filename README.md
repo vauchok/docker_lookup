@@ -23,9 +23,12 @@ sudo pip install ansible
 ```
 
 ### How to use:
-```
+
 To install nginx + tomcat + deploy sample.war:
+```
 ansible-playbook playbook.yml -e key=up
+```
 To stop all containers:
+```
 ansible-playbook playbook.yml -e key=down
 ```
