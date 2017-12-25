@@ -1,5 +1,8 @@
 # Docker_lookup
 
+## Getting Started
+This project can help you to get brief information about dockerfiles, images, container_names, subnets using ansible lookup plugin. 
+
 ### Docker installation:
 ```
 sudo yum install -y yum-utils device-mapper-persistent-data lvm2
