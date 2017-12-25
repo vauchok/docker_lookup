@@ -1,6 +1,6 @@
-# docker_lookup
+# Docker_lookup
 
-# Docker installation:
+### Docker installation:
 ```
 sudo yum install -y yum-utils device-mapper-persistent-data lvm2
 sudo yum-config-manager --add-repo \
@@ -10,19 +10,19 @@ sudo yum install docker-ce
 sudo usermod -aG docker <your_user>
 ```
 
-# Docker-compose installation:
+### Docker-compose installation:
 ```
 sudo yum install python-pip
 sudo pip install docker-compose
 sudo docker-compose --version
 ```
 
-# Ansible installation:
+### Ansible installation:
 ```
 sudo pip install ansible
 ```
 
-# How to use:
+### How to use:
 ```
 To install nginx + tomcat + deploy sample.war:
 ansible-playbook playbook.yml -e key=up
